@@ -45,7 +45,11 @@ Then you should be able to run the script with:
 
 `python3 map.py [path to csv file]`
 
-and the map should be visualized in your default browser. The zoom
-can be adjusted with the optional argument:
+and the map should be opened in your default browser. 
+The zoom can be adjusted with the optional argument:
 
-`python3 map.py [path to csv file] [zoom level (default is 15)`
+`python3 map.py [path to csv file] [zoom level (default is 15)]`
+
+The circle.csv file is included and can be ran as an example using:
+
+`python3 map.py circle.csv`
