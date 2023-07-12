@@ -53,3 +53,37 @@ The zoom can be adjusted with the optional argument:
 The circle.csv file is included and can be ran as an example using:
 
 `python3 map.py circle.csv`
+
+
+## Dists
+
+This is a directory includes two scripts. 
+
+dists_between.py expects to be given two csv files with latitude
+and longitude coordinates will output maximum, minimum, mean,
+and standard devation of distances between each coordinate.
+This assumes both files have the same number of coordinates, 
+if one file has more coordinates than the other, they will be ignored.
+
+granularity.py expects to be given a single csv file with latitude and longitude
+coordinates. It will output the same statistics as dists_between, but for the distance
+between the current coordinate and the next coordinate.
+
+### Usage
+
+These scripts require geopy
+
+`pip install geopy`
+
+Then for granularity.py call
+
+`python3 granularity.py <path to csv file>`
+
+granularity.py will write a text file with the statistics that are printed out by default.
+
+for dists_between.py call
+
+`python3 dists_between.py <path to csv file> <path to csv file>`
+
+This script takes a long time to run, so the percentage of how much it has run will be printed out.
+This script currently samples only 100 points from the smaller track in order to find 
