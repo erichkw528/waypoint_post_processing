@@ -9,6 +9,9 @@ This is a ROS node that connects to the /gps/fix topic and outputs
 a csv file, named data.csv, in the current directory with latitude
 and longitude data.
 
+An optional argument could be added to change the name of the output
+file.
+
 ### Usage
 
 Make sure the ros bag you want to collect data from is running:
@@ -23,12 +26,19 @@ and let the script run until the bag is finished. Afterwards,
 you should find the data.csv file in your current directory.
 
 
-## Map Visualizer
 
-This is python script that takes in a csv file with latitude and
+## Utils
+
+This is a directory includes four scripts. A Map visualizer, a CSV cleaner,
+and two statistics scripsts.
+
+
+### Map Visualizer
+
+This is python script that takes in a csv's file with latitude and
 longitude data and visualizes it with google maps.
 
-### Usage
+#### Usage
 
 In order to use this script, you will need a Google Maps API Key.
 This can be set up [here](https://developers.google.com/maps/documentation/embed/get-api-key).
@@ -43,33 +53,44 @@ and either open a new terminal or run:
 
 Then you should be able to run the script with:
 
-`python3 map.py [path to csv file]`
+`python3 map.py [path to csv files]`
 
-and the map should be opened in your default browser. 
-The zoom can be adjusted with the optional argument:
-
-`python3 map.py [path to csv file] [zoom level (default is 15)]`
+Noting that multiple files can be passed in as argument.
+The map should be opened in your default browser,
+with a side bar that can be clicked to allow zoom
+and pan features. 
 
 The circle.csv file is included and can be ran as an example using:
 
 `python3 map.py circle.csv`
 
+### CSV Cleaner
 
-## Dists
+The CSV Cleaner expects to be given a single csv file as argument.
+It will display the track using matplotlib. After this, one can 
+delete surpfluous points by left clicking on them. The index of the
+point will be printed to the terminal.
 
-This is a directory includes two scripts. 
+`python3 clean_csv.py [path to csv file]`
+
+### Distance between two tracks
 
 dists_between.py expects to be given two csv files with latitude
 and longitude coordinates will output maximum, minimum, mean,
 and standard devation of distances between each coordinate.
-This assumes both files have the same number of coordinates, 
-if one file has more coordinates than the other, they will be ignored.
+The distance comparison happens between the two spatially closest
+points on each track, since there's no guarantee that indexes are the same.
+This is currently being done using gradient descent, but there's issues with
+this distance function being nonconvex. Comparing against every point, however,
+takes excessive amounts of time to run.
+
+### Granularity
 
 granularity.py expects to be given a single csv file with latitude and longitude
 coordinates. It will output the same statistics as dists_between, but for the distance
 between the current coordinate and the next coordinate.
 
-### Usage
+#### Usage
 
 These scripts require geopy
 
@@ -79,11 +100,12 @@ Then for granularity.py call
 
 `python3 granularity.py <path to csv file>`
 
-granularity.py will write a text file with the statistics that are printed out by default.
+and the statistics will be printed to the terminal.
 
 for dists_between.py call
 
 `python3 dists_between.py <path to csv file> <path to csv file>`
 
-This script takes a long time to run, so the percentage of how much it has run will be printed out.
-This script currently samples only 100 points from the smaller track in order to find 
+and the statistics will be printed to the terminal.
+
+This script takes a long time to run, so the percentage of how much it has run will be printed out before the statistics.
